@@ -40,25 +40,63 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var user_1 = __importDefault(require("./model/user"));
+var body_parser_1 = __importDefault(require("body-parser"));
+var product_1 = __importDefault(require("./model/product"));
 var app = express_1.default();
+app.use(body_parser_1.default.json());
 var port = 3000;
-app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var testUser, user;
+app.get('/', function (req, res) {
+    res.send('Aloha crew mates !!');
+});
+app.get('/get', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var products;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, product_1.default.find()];
+            case 1:
+                products = _a.sent();
+                res.send(products);
+                return [2 /*return*/];
+        }
+    });
+}); });
+app.post('/add', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newProduct, product;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                res.send('Aloha crew mates !!');
-                testUser = new user_1.default({
-                    username: "test",
-                    password: "red12345",
-                    name: "test"
-                });
-                return [4 /*yield*/, testUser.save()];
+                newProduct = new product_1.default(req.body);
+                return [4 /*yield*/, newProduct.save()];
             case 1:
-                user = _a.sent();
-                console.log(user);
+                product = _a.sent();
+                res.send(product);
                 return [2 /*return*/];
+        }
+    });
+}); });
+app.post('/update', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var existingProduct, updatedProduct;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, product_1.default.findById(req.body.id)];
+            case 1:
+                existingProduct = _a.sent();
+                if (!!existingProduct) return [3 /*break*/, 2];
+                res.send('No such product exists for given id');
+                return [3 /*break*/, 4];
+            case 2:
+                if (typeof req.body.productName === "string") {
+                    existingProduct.productName = req.body.productName;
+                }
+                if (typeof req.body.type === "string") {
+                    existingProduct.type = req.body.type;
+                }
+                return [4 /*yield*/, existingProduct.save()];
+            case 3:
+                updatedProduct = _a.sent();
+                res.send(updatedProduct);
+                _a.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); });
