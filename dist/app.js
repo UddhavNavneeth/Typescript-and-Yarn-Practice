@@ -100,6 +100,23 @@ app.post('/update', function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); });
+app.delete('/remove', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var deleted;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, product_1.default.findByIdAndDelete(req.body.id)];
+            case 1:
+                deleted = _a.sent();
+                if (!deleted) {
+                    res.send('No such product exists for given id');
+                }
+                else {
+                    res.send(deleted);
+                }
+                return [2 /*return*/];
+        }
+    });
+}); });
 app.listen(port, function () {
     console.log("Server is running on " + port);
 });

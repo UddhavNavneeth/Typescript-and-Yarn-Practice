@@ -52,6 +52,15 @@ app.post('/update', async (req, res) => {
     
 })
 
+app.delete('/remove', async (req, res) => {
+    const deleted = await Product.findByIdAndDelete(req.body.id);
+    if (!deleted) {
+        res.send('No such product exists for given id');
+    } else {
+        res.send(deleted);
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server is running on ${port}`);
 })
