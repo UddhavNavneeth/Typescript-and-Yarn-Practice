@@ -7,7 +7,7 @@ exports.default = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
 exports.default = mongoose_1.default;
 mongoose_1.default.Promise = global.Promise; // -----?-----
-var mongoUri = 'mongodb+srv://UddhavNavneeth:Uddhavthegr8@cluster0.qoq5v.mongodb.net/<dbname>?retryWrites=true&w=majority';
+var mongoUri = process.env.MONGO_URI;
 mongoose_1.default.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
     if (err) {
         throw err;

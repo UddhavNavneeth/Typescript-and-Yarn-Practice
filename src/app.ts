@@ -1,5 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv'
+dotenv.config()
 
 import Product from './model/product';
 
